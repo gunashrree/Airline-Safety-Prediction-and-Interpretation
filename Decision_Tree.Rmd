@@ -1,0 +1,36 @@
+---
+title: "Airline"
+author: "19MIS1142"
+date: '2023-07-27'
+output: html_document
+---
+
+```{r}
+library(party)
+library(dplyr)
+library(caTools)
+df=read.csv("D:/sem_5/DATA_MINING_PROJECT/a-s.csv",,stringsAsFactors = TRUE)
+df
+```
+```{r}
+split <- sample.split(df, SplitRatio = 0.8)
+train_cl <- subset(df, split == "TRUE")
+test_cl <- subset(df, split == "FALSE")
+```
+
+```{r}
+set.seed(1000)
+model<- ctree(Safety  ~., train_cl)
+plot(model)
+```
+```{r}
+# Predict test data based on model
+predict_reg <- predict(model, test_cl)
+predict_reg  
+```
+```{r}
+# Confusion Matrix
+cmd <- table(test_cl$Safety, predict_reg)
+confusionMatrix(cmd)
+```
+
